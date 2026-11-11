@@ -1,6 +1,25 @@
+# =====================================================================
+# MECHATRONICS QUIZ APP  (console version - runs with plain Python)
+# ND2 Python Mini-Project - Mechatronics Engineering Technology
+#
+# Run it with:   python mechatronics_quiz.py
+#
+# Python concepts shown in this file:
+#   1. Functions and "return"        -> get_number_of_questions(), get_remark() ...
+#   2. Lists for storing information -> questions, chosen, wrong_answers
+#   3. Loops (for and while)         -> while: input validation | for: asking questions
+#   4. Conditionals (if/elif/else)   -> marking answers, remarks, menu
+#   5. int() and float() conversion  -> number of questions, percentage score
+#   6. Error handling                -> try/except ValueError + invalid-input messages
+#   7. Comments                      -> explained throughout
+#   8. Unique feature (my twist)     -> Engineer Rank + machine-status LED
+# =====================================================================
 
 import random
 
+# ---------------------------------------------------------------------
+# QUESTION BANK: a LIST of DICTIONARIES (question, options, answer, explanation)
+# ---------------------------------------------------------------------
 questions = [
     {
         "question": "What does PLC stand for?",
@@ -426,75 +445,172 @@ questions = [
 ]
 
 
-def start_quiz():
-    score = 0
-    random.shuffle(questions)
+MAX_QUESTIONS = 50  # the user may choose between 1 and 50 questions
 
-    print("\n===================================")
-    print("       MECHATRONICS QUIZ APP")
-    print("===================================")
+
+# ---------------------------------------------------------------------
+# FUNCTIONS (each one uses "return")
+# ---------------------------------------------------------------------
+def get_number_of_questions():
+    """Ask how many questions to answer. Keeps asking (while loop) until valid."""
+    while True:
+        text = input(f"How many questions do you want (1 to {MAX_QUESTIONS})? ")
+        try:
+            number = int(text)  # data type conversion: text -> whole number
+        except ValueError:
+            # Error handling: the user typed letters, decimals or nothing
+            print("Invalid input. Please type a whole number such as 10.")
+            continue
+        if number < 1 or number > MAX_QUESTIONS:
+            print(f"Please choose a number between 1 and {MAX_QUESTIONS}.")
+        else:
+            return number
+
+
+def pick_questions(bank, count):
+    """Pick 'count' different random questions (while loop avoids repeats)."""
+    chosen = []  # list of questions selected for this quiz
+    used_positions = []  # list of positions already used
+    while len(chosen) < count:
+        position = random.randint(0, len(bank) - 1)
+        if position not in used_positions:
+            used_positions.append(position)
+            chosen.append(bank[position])
+    return chosen
+
+
+def get_answer():
+    """Ask for A, B, C or D. Keeps asking until the input is valid."""
+    while True:
+        answer = input("Your answer (A/B/C/D): ").strip().upper()
+        if answer in ["A", "B", "C", "D"]:
+            return answer
+        print("Invalid answer. Please enter A, B, C or D.")
+
+
+def calculate_percentage(score, total):
+    """Percentage score. float() makes sure the division keeps its decimals."""
+    if total == 0:
+        return 0.0
+    return float(score) / float(total) * 100.0
+
+
+def get_remark(percentage):
+    """Performance remark and Engineer Rank (my own twist)."""
+    if percentage >= 90:
+        return "Outstanding! You are ready for industry.", "Master Engineer"
+    elif percentage >= 75:
+        return "Excellent work! You know your machines.", "Senior Technician"
+    elif percentage >= 60:
+        return "Good job! Keep practising to improve.", "Technician"
+    elif percentage >= 50:
+        return "Fair. Revise the topics you missed.", "Apprentice"
+    else:
+        return "Needs improvement. Study the explanations and try again.", "Trainee"
+
+
+def machine_status(percentage):
+    """Unique feature: a machine-status LED. Green = running, red = fault."""
+    if percentage >= 60:
+        return "[GREEN LED] SYSTEM RUNNING"
+    elif percentage >= 50:
+        return "[AMBER LED] WARNING"
+    else:
+        return "[RED LED] FAULT - REVISE AND RETRY"
+
+
+def run_quiz(name):
+    """Run one full quiz and show the results. Returns the percentage score."""
+    count = get_number_of_questions()
+    quiz = pick_questions(questions, count)
+    score = 0
+    wrong_answers = []  # list that stores every question answered wrongly
+
+    print("\n-----------------------------------")
     print("Answer each question using A, B, C or D.")
     print("-----------------------------------")
 
-    for number, q in enumerate(questions, start=1):
-        print(f"\nQuestion {number}: {q['question']}")
-
+    # for loop: go through each chosen question one by one
+    for number, q in enumerate(quiz, start=1):
+        print(f"\nQuestion {number} of {count}  |  Score so far: {score}")
+        print(q["question"])
         for option in q["options"]:
-            print(option)
+            print("  " + option)
 
-        while True:
-            answer = input("Your answer: ").strip().upper()
+        answer = get_answer()
 
-            if answer in ["A", "B", "C", "D"]:
-                break
-            print("Invalid answer. Please enter A, B, C or D.")
-
-        if answer == q["answer"]:
+        if answer == q["answer"]:  # automatic marking
             print("Correct! Well done.")
             score += 1
         else:
-            print("Wrong!")
-            print("Correct answer:", q["answer"])
-
+            print("Wrong! The correct answer is", q["answer"])
+            wrong_answers.append({"q": q, "your_answer": answer})
         print("Explanation:", q["explanation"])
 
-    percentage = (score / len(questions)) * 100
+    # ---------------- results ----------------
+    percentage = calculate_percentage(score, count)
+    remark, rank = get_remark(percentage)
 
     print("\n===================================")
-    print("           QUIZ RESULTS")
+    print(f"        QUIZ RESULTS - {name}")
     print("===================================")
-    print(f"Total Questions: {len(questions)}")
-    print(f"Correct Answers: {score}")
-    print(f"Wrong Answers: {len(questions) - score}")
-    print(f"Final Score: {percentage:.1f}%")
+    print(f"Questions attempted : {count}")
+    print(f"Correct answers     : {score}")
+    print(f"Wrong answers       : {count - score}")
+    print(f"Percentage score    : {percentage:.1f}%")
+    print(f"Remark              : {remark}")
+    print(f"Engineer Rank       : {rank}")
+    print(f"Machine status      : {machine_status(percentage)}")
+    print("===================================")
 
-    if percentage >= 80:
-        print("Grade: EXCELLENT!")
-    elif percentage >= 60:
-        print("Grade: VERY GOOD!")
-    elif percentage >= 50:
-        print("Grade: GOOD!")
+    # ---------------- review of incorrect answers ----------------
+    if len(wrong_answers) == 0:
+        print("Perfect score! Nothing to review.")
     else:
-        print("Grade: KEEP PRACTISING!")
-
-    print("===================================")
+        print("\nREVIEW OF INCORRECT ANSWERS")
+        for number, item in enumerate(wrong_answers, start=1):
+            q = item["q"]
+            print(f"\n{number}. {q['question']}")
+            print("   Your answer   :", item["your_answer"])
+            print("   Correct answer:", q["answer"])
+            print("   Explanation   :", q["explanation"])
+    return percentage
 
 
 def main():
-    while True:
+    print("===================================")
+    print("       MECHATRONICS QUIZ APP")
+    print("   ND2 Mechatronics Engineering")
+    print("===================================")
+    name = input("Enter your name: ").strip()
+    if name == "":
+        name = "Engineer"
+    print(f"\nWelcome, {name}!")
+
+    while True:  # main menu keeps running until the user exits
         print("\n===== MAIN MENU =====")
         print("1. Start Quiz")
-        print("2. Exit")
-
-        choice = input("Choose an option: ").strip()
+        print("2. How the quiz works")
+        print("3. Exit")
+        choice = input("Choose an option (1-3): ").strip()
 
         if choice == "1":
-            start_quiz()
+            playing = True
+            while playing:  # loop lets the user restart the quiz again and again
+                run_quiz(name)
+                again = input("\nRestart the quiz? (Y/N): ").strip().upper()
+                while again not in ["Y", "N"]:  # validate the Y/N answer
+                    again = input("Please type Y or N: ").strip().upper()
+                if again == "N":
+                    playing = False
         elif choice == "2":
-            print("Thank you for using Mechatronics Quiz App!")
+            print("\nChoose how many questions (1-50). Answer A, B, C or D.")
+            print("You get instant feedback, a score, a rank and a review of mistakes.")
+        elif choice == "3":
+            print("Thank you for using the Mechatronics Quiz App, " + name + "!")
             break
         else:
-            print("Invalid choice. Please choose 1 or 2.")
+            print("Invalid choice. Please choose 1, 2 or 3.")
 
 
 if __name__ == "__main__":
