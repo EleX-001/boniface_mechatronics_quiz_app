@@ -1,9 +1,6 @@
-# ==========================================
-# MECHATRONICS QUIZ APP
-# A multiple-choice quiz for Mechatronics Engineering students.
-# ==========================================
 
-# Each question is stored as a dictionary inside a list.
+import random
+
 questions = [
     {
         "question": "What does PLC stand for?",
@@ -14,249 +11,491 @@ questions = [
             "D. Personal Logic Control"
         ],
         "answer": "A",
-        "explanation": "PLC means Programmable Logic Controller."
+        "explanation": "PLC means Programmable Logic Controller. It controls machines and industrial processes."
     },
     {
-        "question": "Which device is used to detect temperature?",
-        "options": [
-            "A. Motor",
-            "B. Thermocouple",
-            "C. Gear",
-            "D. Relay"
-        ],
+        "question": "Which device detects physical changes?",
+        "options": ["A. Actuator", "B. Sensor", "C. Motor", "D. Relay"],
         "answer": "B",
-        "explanation": "A thermocouple is used to measure temperature."
+        "explanation": "A sensor detects changes such as temperature, pressure and movement."
     },
     {
-        "question": "What is the main function of a sensor?",
-        "options": [
-            "A. To produce sound",
-            "B. To store energy",
-            "C. To detect changes in the environment",
-            "D. To generate electricity"
-        ],
-        "answer": "C",
-        "explanation": "Sensors detect changes in physical conditions."
-    },
-    {
-        "question": "What does CNC stand for?",
+        "question": "What is the full meaning of CNC?",
         "options": [
             "A. Computer Numerical Control",
             "B. Central Network Control",
-            "C. Computer Network Circuit",
-            "D. Controlled Number Calculation"
+            "C. Computer Number Connection",
+            "D. Controlled Numerical Circuit"
         ],
         "answer": "A",
-        "explanation": "CNC means Computer Numerical Control."
+        "explanation": "CNC means Computer Numerical Control. It controls machine tools using programmed instructions."
     },
     {
-        "question": "Which component converts electrical energy into mechanical motion?",
+        "question": "Which of these converts electrical energy into mechanical energy?",
+        "options": ["A. Generator", "B. Transformer", "C. Electric motor", "D. Sensor"],
+        "answer": "C",
+        "explanation": "An electric motor converts electrical energy into mechanical energy."
+    },
+    {
+        "question": "What is automation?",
         "options": [
-            "A. Sensor",
-            "B. Actuator",
-            "C. Resistor",
-            "D. Capacitor"
+            "A. Manual operation of machines",
+            "B. Use of technology to perform tasks automatically",
+            "C. Repairing machines",
+            "D. Stopping production"
+        ],
+        "answer": "B",
+        "explanation": "Automation uses machines and control systems to perform tasks with little human intervention."
+    },
+    {
+        "question": "Which component is used to detect temperature?",
+        "options": ["A. Thermistor", "B. Gear", "C. Pulley", "D. Bearing"],
+        "answer": "A",
+        "explanation": "A thermistor is a temperature-sensitive resistor."
+    },
+    {
+        "question": "What is the main function of an actuator?",
+        "options": [
+            "A. Store information",
+            "B. Produce physical movement",
+            "C. Measure voltage",
+            "D. Display data"
         ],
         "answer": "B",
         "explanation": "An actuator converts energy into physical movement."
     },
     {
-        "question": "Which of these is an example of an automation system?",
-        "options": [
-            "A. Automatic washing machine",
-            "B. Manual broom",
-            "C. Ordinary chair",
-            "D. Notebook"
-        ],
-        "answer": "A",
-        "explanation": "An automatic washing machine performs tasks automatically."
-    },
-    {
-        "question": "What is the brain of a PLC?",
-        "options": [
-            "A. Power supply",
-            "B. CPU",
-            "C. Input terminal",
-            "D. Output terminal"
-        ],
-        "answer": "B",
-        "explanation": "The CPU processes instructions in a PLC."
-    },
-    {
-        "question": "Which machine is commonly used in robotics?",
-        "options": [
-            "A. Robotic arm",
-            "B. Hand saw",
-            "C. Wheelbarrow",
-            "D. Hammer"
-        ],
-        "answer": "A",
-        "explanation": "A robotic arm performs automated movements."
+        "question": "Which machine is commonly used for drilling holes?",
+        "options": ["A. Lathe", "B. Milling machine", "C. Drilling machine", "D. Grinding machine"],
+        "answer": "C",
+        "explanation": "A drilling machine is designed to produce holes in materials."
     },
     {
         "question": "What does CAD stand for?",
         "options": [
             "A. Computer Aided Design",
-            "B. Central Automatic Device",
-            "C. Control And Development",
-            "D. Computer Applied Data"
+            "B. Control Automatic Device",
+            "C. Computer Applied Data",
+            "D. Central Access Design"
         ],
         "answer": "A",
-        "explanation": "CAD means Computer Aided Design."
+        "explanation": "CAD means Computer Aided Design. It is used to create technical drawings and models."
     },
     {
-        "question": "Which of these is an input device?",
+        "question": "What does CAM stand for?",
         "options": [
-            "A. Motor",
-            "B. Lamp",
-            "C. Sensor",
-            "D. Speaker"
+            "A. Computer Aided Manufacturing",
+            "B. Central Automatic Machine",
+            "C. Computer Access Management",
+            "D. Control Applied Mechanics"
         ],
+        "answer": "A",
+        "explanation": "CAM means Computer Aided Manufacturing. It uses computers to assist manufacturing."
+    },
+    {
+        "question": "Which device converts mechanical energy into electrical energy?",
+        "options": ["A. Motor", "B. Generator", "C. Actuator", "D. Pump"],
+        "answer": "B",
+        "explanation": "A generator converts mechanical energy into electrical energy."
+    },
+    {
+        "question": "What is a robot?",
+        "options": [
+            "A. A manually operated tool",
+            "B. A programmable machine that performs tasks",
+            "C. A measuring instrument",
+            "D. A type of computer keyboard"
+        ],
+        "answer": "B",
+        "explanation": "A robot is a programmable machine capable of carrying out tasks automatically."
+    },
+    {
+        "question": "Which of these is a hydraulic fluid?",
+        "options": ["A. Water only", "B. Hydraulic oil", "C. Petrol", "D. Kerosene"],
+        "answer": "B",
+        "explanation": "Hydraulic oil transmits power in hydraulic systems."
+    },
+    {
+        "question": "What is the function of a gear?",
+        "options": [
+            "A. Transmit rotary motion and torque",
+            "B. Measure temperature",
+            "C. Store electricity",
+            "D. Detect light"
+        ],
+        "answer": "A",
+        "explanation": "Gears transmit rotary motion and torque between rotating shafts."
+    },
+    {
+        "question": "Which instrument measures electrical current?",
+        "options": ["A. Voltmeter", "B. Ammeter", "C. Thermometer", "D. Barometer"],
+        "answer": "B",
+        "explanation": "An ammeter measures electric current."
+    },
+    {
+        "question": "What is the unit of electrical resistance?",
+        "options": ["A. Volt", "B. Ampere", "C. Ohm", "D. Watt"],
         "answer": "C",
-        "explanation": "A sensor provides input to a control system."
+        "explanation": "The ohm is the SI unit of electrical resistance."
+    },
+    {
+        "question": "Which instrument measures voltage?",
+        "options": ["A. Ammeter", "B. Voltmeter", "C. Speedometer", "D. Tachometer"],
+        "answer": "B",
+        "explanation": "A voltmeter measures electrical potential difference."
+    },
+    {
+        "question": "What is the function of a relay?",
+        "options": [
+            "A. Switch an electrical circuit",
+            "B. Measure pressure",
+            "C. Produce sound",
+            "D. Store mechanical energy"
+        ],
+        "answer": "A",
+        "explanation": "A relay is an electrically operated switch."
+    },
+    {
+        "question": "Which logic gate gives an output of 1 only when all inputs are 1?",
+        "options": ["A. OR", "B. NOT", "C. AND", "D. NOR"],
+        "answer": "C",
+        "explanation": "An AND gate produces 1 only when all its inputs are 1."
+    },
+    {
+        "question": "Which logic gate reverses its input?",
+        "options": ["A. AND", "B. OR", "C. NOT", "D. XOR"],
+        "answer": "C",
+        "explanation": "A NOT gate changes 1 to 0 and 0 to 1."
+    },
+    {
+        "question": "What does SCADA stand for?",
+        "options": [
+            "A. Supervisory Control and Data Acquisition",
+            "B. System Control and Digital Application",
+            "C. Software Computer and Data Access",
+            "D. Supervisory Circuit and Device Automation"
+        ],
+        "answer": "A",
+        "explanation": "SCADA means Supervisory Control and Data Acquisition. It monitors and controls industrial processes."
+    },
+    {
+        "question": "Which component stores electrical energy?",
+        "options": ["A. Capacitor", "B. Switch", "C. Fuse", "D. Relay"],
+        "answer": "A",
+        "explanation": "A capacitor stores electrical energy in an electric field."
+    },
+    {
+        "question": "What is torque?",
+        "options": [
+            "A. A turning effect of a force",
+            "B. Resistance to electricity",
+            "C. Speed of light",
+            "D. Temperature of a machine"
+        ],
+        "answer": "A",
+        "explanation": "Torque is the turning effect produced by a force."
+    },
+    {
+        "question": "Which material is a good electrical conductor?",
+        "options": ["A. Rubber", "B. Plastic", "C. Copper", "D. Wood"],
+        "answer": "C",
+        "explanation": "Copper allows electric current to flow easily."
+    },
+    {
+        "question": "What is the function of a fuse?",
+        "options": [
+            "A. Increase voltage",
+            "B. Protect a circuit from excessive current",
+            "C. Store current",
+            "D. Measure resistance"
+        ],
+        "answer": "B",
+        "explanation": "A fuse melts and breaks a circuit when excessive current flows."
+    },
+    {
+        "question": "Which device converts pressure into an electrical signal?",
+        "options": ["A. Pressure transducer", "B. Gearbox", "C. Pulley", "D. Bearing"],
+        "answer": "A",
+        "explanation": "A pressure transducer converts pressure into an electrical signal."
+    },
+    {
+        "question": "What is the SI unit of force?",
+        "options": ["A. Joule", "B. Newton", "C. Watt", "D. Pascal"],
+        "answer": "B",
+        "explanation": "The newton is the SI unit of force."
+    },
+    {
+        "question": "Which system uses pressurised liquid to transmit power?",
+        "options": ["A. Pneumatic", "B. Hydraulic", "C. Electrical", "D. Mechanical"],
+        "answer": "B",
+        "explanation": "Hydraulic systems transmit power using pressurised liquids."
+    },
+    {
+        "question": "Which system uses compressed air?",
+        "options": ["A. Hydraulic", "B. Pneumatic", "C. Electrical", "D. Magnetic"],
+        "answer": "B",
+        "explanation": "Pneumatic systems use compressed air to transmit power."
+    },
+    {
+        "question": "What is a microcontroller?",
+        "options": [
+            "A. A small computer on a single chip",
+            "B. A mechanical gear",
+            "C. A hydraulic pump",
+            "D. A type of battery"
+        ],
+        "answer": "A",
+        "explanation": "A microcontroller is a small computer integrated into a single chip."
+    },
+    {
+        "question": "Which device converts light into an electrical signal?",
+        "options": ["A. Photodiode", "B. Thermistor", "C. Relay", "D. Motor"],
+        "answer": "A",
+        "explanation": "A photodiode detects light and produces an electrical response."
+    },
+    {
+        "question": "What is the purpose of a bearing?",
+        "options": [
+            "A. Support rotating shafts and reduce friction",
+            "B. Increase electrical voltage",
+            "C. Measure temperature",
+            "D. Store data"
+        ],
+        "answer": "A",
+        "explanation": "Bearings support moving parts and reduce friction."
+    },
+    {
+        "question": "Which of these is an example of an input device?",
+        "options": ["A. Motor", "B. Sensor", "C. Lamp", "D. Speaker"],
+        "answer": "B",
+        "explanation": "A sensor provides input information to a control system."
+    },
+    {
+        "question": "What does CPU stand for?",
+        "options": [
+            "A. Central Processing Unit",
+            "B. Computer Power Unit",
+            "C. Control Program Utility",
+            "D. Central Programming User"
+        ],
+        "answer": "A",
+        "explanation": "CPU means Central Processing Unit. It processes instructions in a computer."
+    },
+    {
+        "question": "Which of these is a renewable energy source?",
+        "options": ["A. Coal", "B. Petrol", "C. Solar energy", "D. Diesel"],
+        "answer": "C",
+        "explanation": "Solar energy comes from sunlight and is renewable."
+    },
+    {
+        "question": "What is friction?",
+        "options": [
+            "A. A force that opposes motion",
+            "B. A type of electricity",
+            "C. A source of light",
+            "D. A turning machine"
+        ],
+        "answer": "A",
+        "explanation": "Friction is a force that opposes movement between surfaces in contact."
+    },
+    {
+        "question": "Which machine is used to reduce or increase rotational speed?",
+        "options": ["A. Gearbox", "B. Thermometer", "C. Sensor", "D. Fuse"],
+        "answer": "A",
+        "explanation": "A gearbox changes rotational speed and torque."
+    },
+    {
+        "question": "What is feedback in a control system?",
+        "options": [
+            "A. Returning output information to the controller",
+            "B. Removing all sensors",
+            "C. Stopping electricity",
+            "D. Increasing machine weight"
+        ],
+        "answer": "A",
+        "explanation": "Feedback sends information about the output back to the controller."
+    },
+    {
+        "question": "Which control system operates without feedback?",
+        "options": ["A. Closed-loop", "B. Open-loop", "C. Feedback control", "D. Adaptive control"],
+        "answer": "B",
+        "explanation": "An open-loop system operates without using output feedback."
+    },
+    {
+        "question": "Which control system uses feedback?",
+        "options": ["A. Open-loop", "B. Closed-loop", "C. Manual-only", "D. Passive-only"],
+        "answer": "B",
+        "explanation": "A closed-loop system uses feedback to regulate its output."
+    },
+    {
+        "question": "What is the main purpose of a transformer?",
+        "options": [
+            "A. Change AC voltage levels",
+            "B. Store mechanical energy",
+            "C. Produce compressed air",
+            "D. Measure temperature"
+        ],
+        "answer": "A",
+        "explanation": "A transformer increases or decreases alternating-current voltage."
+    },
+    {
+        "question": "What is the unit of power?",
+        "options": ["A. Newton", "B. Watt", "C. Ohm", "D. Pascal"],
+        "answer": "B",
+        "explanation": "The watt is the SI unit of power."
+    },
+    {
+        "question": "Which component protects a machine from overheating?",
+        "options": ["A. Thermal overload relay", "B. Pulley", "C. Gear", "D. Capacitor"],
+        "answer": "A",
+        "explanation": "A thermal overload relay protects motors against excessive current and overheating."
+    },
+    {
+        "question": "What does IoT stand for?",
+        "options": [
+            "A. Internet of Things",
+            "B. Input of Technology",
+            "C. Internal Operating Tool",
+            "D. Internet of Terminals"
+        ],
+        "answer": "A",
+        "explanation": "IoT means Internet of Things. It connects physical devices through networks."
+    },
+    {
+        "question": "Which programming language is commonly used with Arduino?",
+        "options": ["A. C/C++", "B. HTML only", "C. SQL only", "D. CSS only"],
+        "answer": "A",
+        "explanation": "Arduino programming is based on C/C++."
+    },
+    {
+        "question": "What is the purpose of an encoder?",
+        "options": [
+            "A. Measure position or speed",
+            "B. Produce hydraulic pressure",
+            "C. Increase temperature",
+            "D. Store fuel"
+        ],
+        "answer": "A",
+        "explanation": "An encoder provides information about position, direction or speed."
+    },
+    {
+        "question": "Which of these is a mechanical actuator?",
+        "options": ["A. Electric motor", "B. Thermistor", "C. Photodiode", "D. Voltmeter"],
+        "answer": "A",
+        "explanation": "An electric motor produces mechanical movement."
+    },
+    {
+        "question": "What is the main function of a PLC input module?",
+        "options": [
+            "A. Receive signals from input devices",
+            "B. Display pictures",
+            "C. Produce mechanical force",
+            "D. Store hydraulic oil"
+        ],
+        "answer": "A",
+        "explanation": "The input module receives signals from sensors and switches."
+    },
+    {
+        "question": "What is the main function of a PLC output module?",
+        "options": [
+            "A. Receive sensor signals",
+            "B. Send control signals to output devices",
+            "C. Measure room temperature only",
+            "D. Store programs permanently only"
+        ],
+        "answer": "B",
+        "explanation": "The output module sends signals to devices such as motors, lamps and valves."
+    },
+    {
+        "question": "Which manufacturing process removes material using a cutting tool?",
+        "options": ["A. Casting", "B. Machining", "C. Forging", "D. Welding"],
+        "answer": "B",
+        "explanation": "Machining removes unwanted material to achieve a required shape."
+    },
+    {
+        "question": "What is the purpose of preventive maintenance?",
+        "options": [
+            "A. Wait until a machine breaks down",
+            "B. Reduce the chance of equipment failure",
+            "C. Increase machine breakdown",
+            "D. Stop all production permanently"
+        ],
+        "answer": "B",
+        "explanation": "Preventive maintenance involves regular servicing to reduce unexpected failures."
     }
 ]
 
 
-# FUNCTION 1: Allow the student to choose the number of questions.
-# It returns the number selected by the student.
-def choose_quiz_length():
-    print("\nChoose the number of questions:")
-    print("1. Five questions")
-    print("2. Ten questions")
-
-    while True:
-        try:
-            choice = int(input("Enter 1 or 2: "))
-
-            if choice == 1:
-                return 5
-            elif choice == 2:
-                return 10
-            else:
-                print("Invalid choice. Please enter 1 or 2.")
-
-        except ValueError:
-            print("Please enter a number, either 1 or 2.")
-
-
-# FUNCTION 2: Get and validate the student's answer.
-# It returns a valid answer (A, B, C or D).
-def get_answer():
-    while True:
-        answer = input("Your answer (A/B/C/D): ").strip().upper()
-
-        if answer in ["A", "B", "C", "D"]:
-            return answer
-        else:
-            print("Invalid answer. Please choose A, B, C or D.")
-
-
-# FUNCTION 3: Calculate the student's percentage.
-# It returns the percentage as a value.
-def calculate_percentage(score, total):
-    return (score / total) * 100
-
-
-# FUNCTION 4: Run the quiz and check the student's answers.
-# It returns the score and a list of incorrect answers.
-def run_quiz(selected_questions):
+def start_quiz():
     score = 0
-    wrong_answers = []
+    random.shuffle(questions)
 
-    # Loop through each selected question.
-    for question in selected_questions:
-        print("\n" + question["question"])
+    print("\n===================================")
+    print("       MECHATRONICS QUIZ APP")
+    print("===================================")
+    print("Answer each question using A, B, C or D.")
+    print("-----------------------------------")
 
-        # Display all the available options.
-        for option in question["options"]:
+    for number, q in enumerate(questions, start=1):
+        print(f"\nQuestion {number}: {q['question']}")
+
+        for option in q["options"]:
             print(option)
 
-        # Collect the student's answer.
-        answer = get_answer()
+        while True:
+            answer = input("Your answer: ").strip().upper()
 
-        # Check whether the answer is correct.
-        if answer == question["answer"]:
-            print("Correct!")
+            if answer in ["A", "B", "C", "D"]:
+                break
+            print("Invalid answer. Please enter A, B, C or D.")
+
+        if answer == q["answer"]:
+            print("Correct! Well done.")
             score += 1
         else:
-            print("Wrong answer!")
-            print("Correct answer:", question["answer"])
+            print("Wrong!")
+            print("Correct answer:", q["answer"])
 
-            # Store incorrectly answered questions for review.
-            wrong_answers.append(question)
+        print("Explanation:", q["explanation"])
 
-        print("Explanation:", question["explanation"])
+    percentage = (score / len(questions)) * 100
 
-    return score, wrong_answers
+    print("\n===================================")
+    print("           QUIZ RESULTS")
+    print("===================================")
+    print(f"Total Questions: {len(questions)}")
+    print(f"Correct Answers: {score}")
+    print(f"Wrong Answers: {len(questions) - score}")
+    print(f"Final Score: {percentage:.1f}%")
 
-
-# FUNCTION 5: Display the final result and review wrong answers.
-def show_result(name, score, total, wrong_answers):
-    percentage = calculate_percentage(score, total)
-
-    print("\n================================")
-    print("          QUIZ RESULT")
-    print("================================")
-
-    print("Student Name:", name)
-    print("Score:", score, "out of", total)
-    print("Percentage:", round(percentage, 2), "%")
-
-    # Grade the student's performance.
-    if percentage >= 70:
-        print("Excellent performance!")
+    if percentage >= 80:
+        print("Grade: EXCELLENT!")
+    elif percentage >= 60:
+        print("Grade: VERY GOOD!")
     elif percentage >= 50:
-        print("Good effort! Keep studying.")
+        print("Grade: GOOD!")
     else:
-        print("Keep practising. You can improve!")
+        print("Grade: KEEP PRACTISING!")
 
-    # Review questions answered incorrectly.
-    if len(wrong_answers) > 0:
-        print("\n===== INCORRECT ANSWER REVIEW =====")
-
-        for question in wrong_answers:
-            print("\nQuestion:", question["question"])
-            print("Correct answer:", question["answer"])
-            print("Explanation:", question["explanation"])
-
-    else:
-        print("\nCongratulations! You answered every question correctly.")
+    print("===================================")
 
 
-# MAIN FUNCTION: Controls how the whole program runs.
 def main():
-    print("================================")
-    print("     MECHATRONICS QUIZ APP")
-    print("================================")
+    while True:
+        print("\n===== MAIN MENU =====")
+        print("1. Start Quiz")
+        print("2. Exit")
 
-    # Collect the student's name.
-    name = input("Enter your name: ").strip()
+        choice = input("Choose an option: ").strip()
 
-    if name == "":
-        name = "Student"
-
-    print("\nWelcome", name)
-    print("Test your knowledge of Mechatronics Engineering!")
-
-    # Allow the student to choose five or ten questions.
-    number = choose_quiz_length()
-
-    # Select the requested number of questions from the list.
-    selected_questions = questions[:number]
-
-    print("\nAnswer the following questions.")
-    print("Choose A, B, C or D.")
-
-    # Run the quiz and collect the results.
-    score, wrong_answers = run_quiz(selected_questions)
-
-    # Display the final result.
-    show_result(name, score, len(selected_questions), wrong_answers)
-
-    print("\nThank you for using the Mechatronics Quiz App!")
+        if choice == "1":
+            start_quiz()
+        elif choice == "2":
+            print("Thank you for using Mechatronics Quiz App!")
+            break
+        else:
+            print("Invalid choice. Please choose 1 or 2.")
 
 
-# Start the program by calling the main function.
 if __name__ == "__main__":
     main()
